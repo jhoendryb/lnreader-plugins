@@ -1,7 +1,7 @@
 import { fetchApi } from '@libs/fetch';
 import { Plugin } from '@/types/plugin';
 import { FilterTypes, Filters } from '@libs/filterInputs';
-import { load as loadCheerio } from 'cheerio';
+import { CheerioAPI, load as loadCheerio } from 'cheerio';
 import { defaultCover } from '@libs/defaultCover';
 import { NovelStatus } from '@libs/novelStatus';
 
@@ -148,12 +148,12 @@ class Novelyra implements Plugin.PluginBase {
   } satisfies Filters;
 
   private loadNovels(
-    loadedCheerio: any,
+    loadedCheerio: CheerioAPI,
     typeNovel: string,
   ): Plugin.NovelItem[] {
     const novels: Plugin.NovelItem[] = [];
 
-    loadedCheerio(typeNovel).each((_: number, ele: any) => {
+    loadedCheerio(typeNovel).each((_, ele) => {
       const novel = loadedCheerio(ele);
       novels.push({
         name: novel.find('h3').text(),
