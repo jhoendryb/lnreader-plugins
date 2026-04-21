@@ -9,7 +9,7 @@ class SkyNovels implements Plugin.PluginBase {
   apiSite = 'https://api.skynovels.net/api/';
   version = '1.1.0';
   icon = 'src/es/skynovels/icon.png';
-  filters: Filters | undefined = {
+  filters = {
     genres: {
       type: FilterTypes.CheckboxGroup,
       label: 'Generos',
@@ -154,7 +154,7 @@ class SkyNovels implements Plugin.PluginBase {
     searchTerm: string,
     pageNo: number,
   ): Promise<Plugin.NovelItem[]> {
-    searchTerm = searchTerm.toLowerCase();
+    searchTerm = encodeURIComponent(searchTerm.toLowerCase());
     const url = `${this.apiSite}novels?page=${pageNo}&q=${searchTerm}`;
 
     const result = await fetchApi(url, {
